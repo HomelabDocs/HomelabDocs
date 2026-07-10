@@ -2,4 +2,7 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="YamlDotNet" Version="18.1.0" />
+  </ItemGroup>
 </Project>

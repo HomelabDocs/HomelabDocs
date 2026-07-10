@@ -1,6 +1,8 @@
-﻿using Parser.Entities;
+﻿using System.Text.Json;
+using Parser.Entities;
 using Parser.Extensions;
 using Parser.Helpers;
+using Parser.Models;
 
 var servicesDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../../Services"));
 
@@ -14,17 +16,26 @@ foreach (var filePath in composeFiles)
 
     // Discover Device
     var deviceName = StringHelper.ValueOrUnknown(file.Directory?.Parent?.Name);
-    var device = result.FirstOrDefault(x => x.Name == deviceName) ?? result.AddNewEntity(new Device
-    {
-        Name = deviceName
-    });
+    var device = 
+        result.FirstOrDefault(x => x.Name == deviceName) 
+        ?? result.AddNewEntity(new Device { Name = deviceName });
 
     // Discover Service
     var serviceName = StringHelper.ValueOrUnknown(file.Directory?.Name);
-    var service = device.Services.FirstOrDefault(x => x.Name == serviceName) ?? device.Services.AddNewEntity(new Service
+    var service =
+        device.Services.FirstOrDefault(x => x.Name == deviceName)
+        ?? device.Services.AddNewEntity(new Service { Name = serviceName });
+
+    var composeFile = YamlHelper.Read<DockerCompose>(file);
+    foreach (var container in composeFile.Containers)
     {
-        Name = serviceName
-    });
+        service.Containers.AddNewEntity(new Container { Name = container.Key });
+    }
 }
+
+var json = JsonSerializer.Serialize(result, new JsonSerializerOptions
+{
+    WriteIndented = true
+});
 
 var debugPoint = "";
