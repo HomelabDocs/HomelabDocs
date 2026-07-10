@@ -4,7 +4,8 @@ using Parser.Extensions;
 using Parser.Helpers;
 using Parser.Models;
 
-var servicesDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../../Services"));
+var baseDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../../"));
+var servicesDirectory = Path.Combine(baseDirectory, "Services");
 
 var composeFiles = Directory.EnumerateFiles(servicesDirectory, "*", SearchOption.AllDirectories)
     .Where(file => RegexHelper.IsComposeFile(Path.GetFileName(file)));
@@ -38,4 +39,4 @@ var json = JsonSerializer.Serialize(result, new JsonSerializerOptions
     WriteIndented = true
 });
 
-var debugPoint = "";
+File.WriteAllText(Path.Combine(baseDirectory, "mapping.json"), json);
