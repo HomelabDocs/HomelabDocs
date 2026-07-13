@@ -62,7 +62,7 @@ jobs:
         working-directory: Visualizer
 
       - name: Build Visualizer
-        run: npm run build -- --base=/${{ github.event.repository.name }}/
+        run: npm run build -- --base=/
         working-directory: Visualizer
 
       - name: Upload Visualizer dist
