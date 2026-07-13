@@ -42,7 +42,7 @@ jobs:
         run: dotnet build Parser/src/Parser/Parser.csproj --configuration Release
 
       - name: Upload Parser build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: parser-build
           path: Parser/src/Parser/bin/Release/net10.0/
@@ -73,7 +73,7 @@ jobs:
         working-directory: Visualizer
 
       - name: Upload Visualizer dist
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: visualizer-dist
           path: Visualizer/dist/
@@ -104,7 +104,7 @@ jobs:
         run: dotnet Parser/src/Parser/bin/Release/net10.0/Parser.dll
 
       - name: Upload mapping.json
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mapping-json
           path: mapping.json
