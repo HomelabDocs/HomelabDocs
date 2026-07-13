@@ -2,12 +2,12 @@
   <Folder Name="/src/">
     <Project Path="src/Parser/Parser.csproj" />
   </Folder>
+  <Folder Name="/Root/">
+    <File Path="..\.github\workflows\deploy-pages.yml" />
+  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
-  </Folder>
-  <Folder Name="/Workflows/">
-    <File Path="..\.github\workflows\deploy-pages.yml" />
   </Folder>
 </Solution>
