@@ -1,4 +1,4 @@
-const MAPPING_URL = '/mapping.json'
+const MAPPING_URL = `${import.meta.env.BASE_URL}mapping.json`
 
 export async function fetchMapping() {
   const response = await fetch(MAPPING_URL)
