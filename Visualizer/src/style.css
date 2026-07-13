@@ -1,0 +1,123 @@
+@import '@vue-flow/core/dist/style.css';
+@import '@vue-flow/controls/dist/style.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --color-bg: #f8f9fa;
+  --color-surface: #ffffff;
+  --color-border: #e5e7eb;
+  --color-text: #1f2937;
+  --color-text-muted: #6b7280;
+  --color-text-subtle: #9ca3af;
+  --color-edge: #d1d5db;
+  --color-error: #b91c1c;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Dashboard */
+
+.dashboard {
+  width: 100%;
+  height: 100%;
+}
+
+.dashboard__status {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.dashboard__status--error {
+  color: var(--color-error);
+}
+
+.dashboard__flow {
+  width: 100%;
+  height: 100%;
+  background: var(--color-bg);
+}
+
+.dashboard__flow .vue-flow__edge-path {
+  stroke: var(--color-edge);
+  stroke-width: 1;
+}
+
+.dashboard__flow .vue-flow__controls {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+}
+
+.dashboard__flow .vue-flow__controls-button {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  fill: var(--color-text-muted);
+}
+
+.dashboard__flow .vue-flow__controls-button:hover {
+  background: var(--color-bg);
+}
+
+.dashboard__flow .vue-flow__controls-button:last-child {
+  border-bottom: none;
+}
+
+/* Entity nodes */
+
+.entity-node {
+  min-width: 120px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.entity-node__label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text);
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+.entity-node--device .entity-node__label {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.entity-node--container .entity-node__label {
+  font-weight: 400;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.entity-node .vue-flow__handle {
+  width: 6px;
+  height: 6px;
+  background: var(--color-edge);
+  border: none;
+  opacity: 0;
+}
