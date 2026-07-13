@@ -28,7 +28,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '11.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Cache NuGet packages
         uses: actions/cache@v4
@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: parser-build
-          path: Parser/src/Parser/bin/Release/net11.0/
+          path: Parser/src/Parser/bin/Release/net10.0/
           if-no-files-found: error
 
   build-visualizer:
@@ -92,16 +92,16 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '11.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Download Parser build
         uses: actions/download-artifact@v4
         with:
           name: parser-build
-          path: Parser/src/Parser/bin/Release/net11.0/
+          path: Parser/src/Parser/bin/Release/net10.0/
 
       - name: Run Parser
-        run: dotnet Parser/src/Parser/bin/Release/net11.0/Parser.dll
+        run: dotnet Parser/src/Parser/bin/Release/net10.0/Parser.dll
 
       - name: Upload mapping.json
         uses: actions/upload-artifact@v4
