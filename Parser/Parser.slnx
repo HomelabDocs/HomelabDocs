@@ -3,6 +3,7 @@
     <Project Path="src/Parser/Parser.csproj" />
   </Folder>
   <Folder Name="/Root/">
+    <File Path="..\.github\dependabot.yml" />
     <File Path="..\.github\workflows\deploy-pages.yml" />
   </Folder>
   <Folder Name="/Solution Items/">

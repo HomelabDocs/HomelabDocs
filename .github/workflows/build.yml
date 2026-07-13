@@ -3,6 +3,7 @@ name: Build, Execute & Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -19,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: recursive
           token: ${{ secrets.HOMELAB_DOCS_SUBMODULE }}
@@ -27,10 +28,10 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '11.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Cache NuGet packages
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('Parser/**/Directory.Packages.props', 'Parser/**/*.csproj') }}
@@ -41,17 +42,17 @@ jobs:
         run: dotnet build Parser/src/Parser/Parser.csproj --configuration Release
 
       - name: Upload Parser build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: parser-build
-          path: Parser/src/Parser/bin/Release/net11.0/
+          path: Parser/src/Parser/bin/Release/net10.0/
           if-no-files-found: error
 
   build-visualizer:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: recursive
           token: ${{ secrets.HOMELAB_DOCS_SUBMODULE }}
@@ -72,7 +73,7 @@ jobs:
         working-directory: Visualizer
 
       - name: Upload Visualizer dist
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: visualizer-dist
           path: Visualizer/dist/
@@ -83,7 +84,7 @@ jobs:
     needs: build-parser
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: recursive
           token: ${{ secrets.HOMELAB_DOCS_SUBMODULE }}
@@ -91,39 +92,41 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '11.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Download Parser build
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: parser-build
-          path: Parser/src/Parser/bin/Release/net11.0/
+          path: Parser/src/Parser/bin/Release/net10.0/
 
       - name: Run Parser
-        run: dotnet Parser/src/Parser/bin/Release/net11.0/Parser.dll
+        run: dotnet Parser/src/Parser/bin/Release/net10.0/Parser.dll
 
       - name: Upload mapping.json
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mapping-json
           path: mapping.json
           if-no-files-found: error
 
   deploy-pages:
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     needs: [build-visualizer, generate-mapping]
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Download Visualizer dist
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: visualizer-dist
           path: dist
 
       - name: Download mapping.json
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: mapping-json
           path: dist
@@ -135,4 +138,4 @@ jobs:
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
