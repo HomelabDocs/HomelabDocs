@@ -1,1 +1,4 @@
 mapping.json
+
+# MacOS Files
+.DS_Store

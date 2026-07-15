@@ -1,11 +1,13 @@
 using System.Text.RegularExpressions;
-using Parser.Entities;
+using Parser.Interfaces;
 
-namespace Parser.Extensions;
+namespace Parser.Services.Plugins;
 
-public static class ContainerExtensions
+public class TraefikPlugin : IRouteProvider
 {
-    public static void SearchRoute(this Container container, Dictionary<string, string> labels)
+    public int Priority => 0;
+
+    public string? GetRoute(IReadOnlyDictionary<string, string> labels)
     {
         var regex = new Regex(@"^traefik\.http\.routers\.[^.]+\.rule$");
 
@@ -14,14 +16,14 @@ public static class ContainerExtensions
             .Select(label => label.Value)
             .FirstOrDefault();
         
-        if (route is null)
-            return;
+        if (string.IsNullOrWhiteSpace(route))
+            return null;
         
         var domainMatch = Regex.Match(route, @"`([^`]+)`");
         
         if (!domainMatch.Success)
-            return;
+            return null;
         
-        container.Route = domainMatch.Groups[1].Value;
+        return domainMatch.Groups[1].Value;
     }
 }
