@@ -1,5 +1,4 @@
 using System.Text.Json;
-using Microsoft.Extensions.DependencyInjection;
 using Parser.Entities;
 using Parser.Extensions;
 using Parser.Helpers;
@@ -7,7 +6,7 @@ using Parser.Models;
 
 namespace Parser.Services;
 
-public class Mapper()
+public class Mapper(DataRepository dataRepository)
 {
     public void Run()
     {
@@ -41,7 +40,7 @@ public class Mapper()
                 var containerViewModel = service.Containers.AddNewEntity(new Container { Name = container.Key });
 
                 // Search service icon
-                service.SearchIconUrl(container.Value.Labels);
+                service.IconUrl = dataRepository.GetIcon(container.Value.Labels);
 
                 // Read Ports
                 foreach (var port in container.Value.Ports)

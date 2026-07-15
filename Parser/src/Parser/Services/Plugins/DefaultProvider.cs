@@ -4,7 +4,7 @@ namespace Parser.Services.Plugins;
 
 public class DefaultProvider : IIconProvider, IRouteProvider
 {
-    public int Priority => 100;
+    public int Priority => 999;
 
     public string? GetIcon(IReadOnlyDictionary<string, string> labels) => null;
 

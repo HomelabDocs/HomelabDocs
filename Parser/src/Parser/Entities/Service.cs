@@ -6,5 +6,5 @@ public class Service
 {
     public required string Name { get; set; }
     public List<Container> Containers { get; } = new();
-    public string IconUrl { get; set; } = "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/docker.png";
+    public string? IconUrl { get; set; }
 }

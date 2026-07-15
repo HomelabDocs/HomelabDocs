@@ -5,6 +5,7 @@ using Parser.Services;
 var services = new ServiceCollection()
     .AddPlugins();
 
-services.BuildServiceProvider();
+services.AddSingleton<Mapper>();
+var serviceProvider = services.BuildServiceProvider();
 
-new Mapper().Run();
+serviceProvider.GetRequiredService<Mapper>().Run();
