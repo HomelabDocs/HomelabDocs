@@ -47,7 +47,7 @@ public class Mapper(DataRepository dataRepository)
                     containerViewModel.Ports.Add(port);
 
                 // Read routes
-                containerViewModel.SearchRoute(container.Value.Labels);
+                containerViewModel.Route = dataRepository.GetRoute(container.Value.Labels);
             }
         }
 

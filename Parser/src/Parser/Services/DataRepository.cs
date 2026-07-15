@@ -16,7 +16,7 @@ public class DataRepository(IEnumerable<IPlugin> plugins)
         return null;
     }
 
-    public string? GetRoutes(IReadOnlyDictionary<string, string> labels)
+    public string? GetRoute(IReadOnlyDictionary<string, string> labels)
     {
         foreach (var provider in plugins.OfType<IRouteProvider>().OrderBy(plugin => plugin.Priority))
         {
