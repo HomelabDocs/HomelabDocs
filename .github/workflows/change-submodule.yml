@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   switch:
@@ -17,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@v5
         with:
           submodules: false
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -38,11 +39,39 @@ jobs:
         run: |
           git submodule add "${{ github.event.inputs.repository }}" Services
 
-      - name: Commit
+      - name: Commit changes
         run: |
           git add .gitmodules Services
+
+          if git diff --cached --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+
           git commit -m "Switch Services submodule"
 
-      - name: Push
+      - name: Try pushing directly to main
+        id: push_main
+        continue-on-error: true
         run: |
-          git push
+          git push origin HEAD:main
+
+      - name: Push to temporary branch
+        if: steps.push_main.outcome == 'failure'
+        env:
+          BRANCH: switch-services-${{ github.run_id }}
+        run: |
+          git checkout -b "$BRANCH"
+          git push origin "$BRANCH"
+
+      - name: Create Pull Request
+        if: steps.push_main.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: switch-services-${{ github.run_id }}
+        run: |
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "Switch Services submodule" \
+            --body "Direct push was blocked by branch protection, so this PR was created automatically."
