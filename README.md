@@ -10,7 +10,7 @@ This repository contains:
 
 The repository is designed to be forked. Your own Docker Compose repository can be connected as a private submodule, allowing you to keep infrastructure details private while still using this visualization.
 
-Want to run the project? Navigate to the [Getting Started Guide](https://github.com/MathijsNabbe/Homelab-Docs/wiki/Getting-started) on the wiki! 
+Want to run the project? Navigate to the [Getting Started Guide](https://github.com/HomelabDocs/HomelabDocs/wiki/0.-Getting-Started) on the wiki! 
 
 ## Integrations
 
