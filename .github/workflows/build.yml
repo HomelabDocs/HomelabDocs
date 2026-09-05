@@ -54,7 +54,8 @@ jobs:
             --configuration Release \
             --no-build \
             --verbosity normal \
-            --logger "trx;LogFileName=test-results.trx" \
+            --report-xunit-trx \
+            --report-xunit-trx-filename "test-results.trx" \
             --results-directory "${{ github.workspace }}/TestResults"
 
       - name: Test report
